@@ -16,7 +16,7 @@ def get_requirements(file_path: str) -> List[str]:
 
 
 setup(
-    name='mlproject',
+    name='TourismTrend',
     version='0.0.1',
     author='SHIVRAJ SHINDE',
     author_email='shindeshivraaj@gmail.com',
