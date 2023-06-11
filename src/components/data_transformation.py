@@ -14,6 +14,7 @@ from src.utils import save_object
 from src.logger import logging
 
 
+
 @dataclass
 class DataTransformationConfig:
     preprocessor_obj_file_path = os.path.join('artifacts','preprocessor.pkl')
@@ -42,16 +43,14 @@ class DataTransformation:
             input_feature_train_arr=scaler.fit_transform(input_feature_train_df)
             input_feature_test_arr=scaler.transform(input_feature_test_df)
 
-            train_arr = np.c_[
-                input_feature_train_arr, np.array(target_feature_train_df)
-            ]
+            train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
 
             test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
 
             save_object(
 
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
-                obj=preprocessing_obj
+                obj=scaler
 
             )
 

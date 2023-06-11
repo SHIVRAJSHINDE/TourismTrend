@@ -6,6 +6,9 @@ import pandas as pd
 
 from sklearn.model_selection import train_test_split
 from dataclasses import dataclass
+from src.components.data_transformation import DataTransformationConfig
+from src.components.data_transformation import DataTransformation
+from src.components.model_trainer import ModelTrainer
 
 @dataclass
 class DataIngestionConfig:
@@ -24,25 +27,41 @@ class DataIngestion:
         self.ingestion_config = DataIngestionConfig()
 
     def get_iqr(self,data, column_name, q1_range, q3_range):
-        q1 = data[column_name].quantile(q1_range)
-        q3 = data[column_name].quantile(q3_range)
-        IQR = q3 - q1
-        upper_fence = q3 + (1.5 * IQR)
-        lower_fence = q1 - (1.5 * IQR)
+        try:
+            q1 = data[column_name].quantile(q1_range)
+            q3 = data[column_name].quantile(q3_range)
+            IQR = q3 - q1
+            upper_fence = q3 + (1.5 * IQR)
+            lower_fence = q1 - (1.5 * IQR)
 
 
-        indexUL = data[data[column_name] > upper_fence].index
-        indexLM = data[data[column_name] < lower_fence].index
+            indexUL = data[data[column_name] > upper_fence].index
+            indexLM = data[data[column_name] < lower_fence].index
 
-        # print("indexUL: "+str(indexUL))
-        # print("indexLM: "+str(indexUL))
+            # print("indexUL: "+str(indexUL))
+            # print("indexLM: "+str(indexUL))
 
-        print(data.shape)
+            print(data.shape)
 
-        data.drop(indexUL, inplace=True)
-        data.drop(indexLM, inplace=True)
-        print(data.shape)
-        return data
+            data.drop(indexUL, inplace=True)
+            data.drop(indexLM, inplace=True)
+            print(data.shape)
+            return data
+        except Exception as e:
+            raise CustomException(e,sys)
+
+
+    def encodeTheData(self, data, colName1, colName2):
+        try:
+            data = pd.get_dummies(data, columns=[colName1[0], colName1[1], colName1[2], colName1[3]], drop_first=True)
+            data[colName2[0]] = data[colName2[0]].replace(
+                {'Basic': 1, 'Standard': 2, 'Deluxe': 3, 'Super Deluxe': 4, 'King': 5})
+            data[colName2[1]] = data[colName2[1]].replace(
+                {'Executive': 1, 'Manager': 2, 'Senior Manager': 3, 'AVP': 4, 'VP': 5})
+
+            return data
+        except Exception as e:
+            raise CustomException(e,sys)
 
     def initiate_data_ingestion(self):
 
@@ -65,13 +84,16 @@ class DataIngestion:
             data = self.get_iqr(data, 'NumberOfTrips',0.20,0.75)
             data = data
 
+            col1 = ['TypeofContact', 'Occupation', 'Gender', 'MaritalStatus']
+            col2 = ['ProductPitched', 'Designation']
+
+            data = self.encodeTheData(data, col1, col2)
+
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
             data.to_csv(self.ingestion_config.raw_data_path,index=False,header=True)
             train_set,test_set = train_test_split(data,test_size=0.2,random_state=42)
             train_set.to_csv(self.ingestion_config.train_data_path,index=False)
             test_set.to_csv(self.ingestion_config.test_data_path,index=False)
-
-
             print("files step-1")
 
             return (
@@ -90,4 +112,9 @@ if __name__ == "__main__":
     obj=DataIngestion()
     train_path,test_path=obj.initiate_data_ingestion()
 
+    dataTransformation = DataTransformation()
+    train_arr,test_arr,_ = dataTransformation.initiate_data_transformation(train_path,test_path)
+
+    modelTrainer = ModelTrainer()
+    print(modelTrainer.initiate_model_trainer(train_arr,test_arr))
 
