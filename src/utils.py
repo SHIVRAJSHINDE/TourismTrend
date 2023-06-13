@@ -1,5 +1,12 @@
 import os
 import sys
+from sklearn.model_selection import GridSearchCV
+from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import accuracy_score
+from sklearn.metrics import precision_score
+from sklearn.metrics import recall_score
+
 
 import numpy as np
 import pandas as pd
@@ -27,7 +34,6 @@ def save_object(file_path, obj):
 def evaluate_models(X_train, y_train, X_test, y_test, models, param):
     try:
         report = {}
-
         for i in range(len(list(models))):
             model = list(models.values())[i]
             print(model)
@@ -39,13 +45,21 @@ def evaluate_models(X_train, y_train, X_test, y_test, models, param):
 
             model.set_params(**gs.best_params_)
             model.fit(X_train, y_train)
-
-            # model.fit(X_train, y_train)  # Train model
-            y_train_pred = model.predict(X_train)
-            y_test_pred = model.predict(X_test)
-            train_model_score = r2_score(y_train, y_train_pred)
-            test_model_score = r2_score(y_test, y_test_pred)
-            report[list(models.keys())[i]] = test_model_score
+            X_train_prediction = model.predict(X_train)
+            training_data_accuracy = accuracy_score(y_train, X_train_prediction)
+            print("training_data_accuracy = ", training_data_accuracy)
+            X_test_prediction = model.predict(X_test)
+            test_data_accuracy = accuracy_score(y_test, X_test_prediction)
+            print("test_data_accuracy = ", test_data_accuracy)
+            precision_train = precision_score(y_train, X_train_prediction)
+            print('Training data Precision = ', precision_train)
+            precision_test = precision_score(y_test, X_test_prediction)
+            print('Test data Precision = ', precision_test)
+            recall_train = recall_score(y_train, X_train_prediction)
+            print('Training data Recall = ', recall_train)
+            recall_test = recall_score(y_test, X_test_prediction)
+            print('Test data Recall = ', recall_test)
+            report[list(models.keys())[i]] = precision_test
 
         return report
 

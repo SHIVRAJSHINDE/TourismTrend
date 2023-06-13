@@ -43,22 +43,17 @@ class ModelTrainer:
                 y_test_arr,
             )
 
-            models = {
-                "Logistic Regression": LogisticRegression(),
-                "SVC": SVC()
-            }
-            params = {
-                "SVC": {'C': [0.1, 1, 100],
-                        'kernel': ['rbf','poly','sigmoid'],
-                        'degree': [1, 2, 3, 4, 5, 6]
-                        },
-                "Logistic Regression": {'penalty': ['l1', 'l2', 'elasticnet'],
-                                        'C': np.logspace(-4, 4, 20),
-                                        'solver': ['lbfgs', 'newton-cg', 'liblinear', 'sag', 'saga'],
-                                        'max_iter': [100, 1000, 2500, 5000]
-                                        }
+            params = {'Svc': {
+                'C': [0.1, 1, 100],
+                'kernel': ['rbf', 'poly', 'sigmoid'],
+                'degree': [1, 2, 3, 4, 5, 6]
             }
 
+            }
+
+            models = {
+                "Svc": SVC()
+            }
 
 
 
@@ -67,13 +62,14 @@ class ModelTrainer:
 
             ## To get best model score from dict
             best_model_score = max(sorted(model_report.values()))
-            print(best_model_score)
+            print('best_model_score : ',best_model_score)
             ## To get best model name from dict
 
             best_model_name = list(model_report.keys())[list(model_report.values()).index(best_model_score)]
-            print(best_model_name)
+            print('best_model_name : ',best_model_name)
 
             best_model = models[best_model_name]
+            print('best_model : ',best_model)
 
             if best_model_score < 0.6:
                 raise CustomException("No best model found")
@@ -84,10 +80,8 @@ class ModelTrainer:
                 obj=best_model
             )
 
-            predicted = best_model.predict(X_test)
 
-            r2_square = r2_score(y_test, predicted)
-            return r2_square
+
 
         except Exception as e:
             raise CustomException(e, sys)
