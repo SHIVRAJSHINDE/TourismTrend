@@ -43,9 +43,12 @@ class DataTransformation:
             input_feature_train_arr=scaler.fit_transform(input_feature_train_df)
             input_feature_test_arr=scaler.transform(input_feature_test_df)
 
-            train_arr = np.c_[input_feature_train_arr, np.array(target_feature_train_df)]
+            X_train_arr = input_feature_train_arr
+            y_train_arr = np.array(target_feature_train_df)
 
-            test_arr = np.c_[input_feature_test_arr, np.array(target_feature_test_df)]
+            X_test_arr = input_feature_test_arr
+            y_test_arr = np.array(target_feature_test_df)
+
 
             save_object(
 
@@ -55,8 +58,10 @@ class DataTransformation:
             )
 
             return (
-                train_arr,
-                test_arr,
+                X_train_arr,
+                y_train_arr,
+                X_test_arr,
+                y_test_arr,
                 self.data_transformation_config.preprocessor_obj_file_path,
             )
         except Exception as e:

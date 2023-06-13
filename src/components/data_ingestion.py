@@ -68,6 +68,10 @@ class DataIngestion:
         try:
 
             data=pd.read_csv('notebook/data/tourismData.csv')
+            data = data[['CustomerID','Age','TypeofContact','CityTier','DurationOfPitch','Occupation','Gender','NumberOfPersonVisited',
+                         'NumberOfFollowups','ProductPitched','PreferredPropertyStar','MaritalStatus','NumberOfTrips','Passport',
+                         'PitchSatisfactionScore','OwnCar','NumberOfChildrenVisited','Designation','MonthlyIncome','ProdTaken']]
+
             data.drop(['CustomerID'], axis=1,inplace=True)
 
             data['Age'].fillna(data['Age'].median(), inplace=True)
@@ -113,8 +117,8 @@ if __name__ == "__main__":
     train_path,test_path=obj.initiate_data_ingestion()
 
     dataTransformation = DataTransformation()
-    train_arr,test_arr,_ = dataTransformation.initiate_data_transformation(train_path,test_path)
+    X_train_arr,y_train_arr,X_test_arr,y_test_arr,_ = dataTransformation.initiate_data_transformation(train_path,test_path)
 
     modelTrainer = ModelTrainer()
-    print(modelTrainer.initiate_model_trainer(train_arr,test_arr))
+    print(modelTrainer.initiate_model_trainer(X_train_arr,y_train_arr,X_test_arr,y_test_arr))
 
