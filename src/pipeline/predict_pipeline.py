@@ -1,5 +1,6 @@
 import sys
 import pandas as pd
+import os
 from src.exception import CustomException
 from src.utils import load_object
 
@@ -7,48 +8,73 @@ from src.utils import load_object
 class PredictPipeline:
     def __init__(self):
         pass
-    def predict(self,features):
-        try:
 
-            model_path='artifacts\model.pkl'
-            preprocessor_path='artifacts\preprocessor.pkl'
-            model=load_object(file_path=model_path)
-            preprocessor = load_object(file_path=model_path)
+    def predict(self, features):
+        try:
+            model_path = os.path.join("artifacts", "model.pkl")
+            preprocessor_path = os.path.join('artifacts', 'preprocessor.pkl')
+            print("Before Loading")
+            model = load_object(file_path=model_path)
+            preprocessor = load_object(file_path=preprocessor_path)
+            print("After Loading")
             data_scaled = preprocessor.transform(features)
             preds = model.predict(data_scaled)
+
             return preds
 
         except Exception as e:
-            raise CustomException(e,sys)
-
-
+            raise CustomException(e, sys)
 
 
 class CustomData:
-    def __init__( self,gender: str,race_ethnicity: str,parental_level_of_education,
-        lunch: str,test_preparation_course: str,reading_score: int,writing_score: int):
-
-        self.gender = gender
-        self.race_ethnicity = race_ethnicity
-        self.parental_level_of_education = parental_level_of_education
-        self.lunch = lunch
-        self.test_preparation_course = test_preparation_course
-        self.reading_score = reading_score
-        self.writing_score = writing_score
+    def __init__(self, Age: int, TypeofContact: str, CityTier: int, DurationOfPitch: int, Occupation: str,
+                 Gender: str, NumberOfPersonVisited: int, NumberOfFollowups: int, ProductPitched: str,
+                 PreferredPropertyStar: int, MaritalStatus: str, NumberOfTrips: int, Passport: str,
+                 PitchSatisfactionScore: int, OwnCar: str, NumberOfChildrenVisited: int, Designation: str,
+                 MonthlyIncome: int):
+        self.Age = Age
+        self.TypeofContact = TypeofContact
+        self.CityTier = CityTier
+        self.DurationOfPitch = DurationOfPitch
+        self.Occupation = Occupation
+        self.Gender = Gender
+        self.NumberOfPersonVisited = NumberOfPersonVisited
+        self.NumberOfFollowups = NumberOfFollowups
+        self.ProductPitched = ProductPitched
+        self.PreferredPropertyStar = PreferredPropertyStar
+        self.MaritalStatus = MaritalStatus
+        self.NumberOfTrips = NumberOfTrips
+        self.Passport = Passport
+        self.PitchSatisfactionScore = PitchSatisfactionScore
+        self.OwnCar = OwnCar
+        self.NumberOfChildrenVisited = NumberOfChildrenVisited
+        self.Designation = Designation
+        self.MonthlyIncome = MonthlyIncome
 
     def get_data_as_data_frame(self):
         try:
-            custom_data_input_dict= {
-                "gender" : [self.gender],
-                "race_ethnicity" : [self.race_ethnicity],
-                "parental_level_of_education" : [self.parental_level_of_education],
-                "lunch" : [self.lunch],
-                "test_preparation_course" : [self.test_preparation_course],
-                "reading_score" : [self.reading_score],
-                "writing_score" : [self.writing_score]
+            custom_data_input_dict = {
+                "Age": [self.Age],
+                "TypeofContact": [self.TypeofContact],
+                "CityTier": [self.CityTier],
+                "DurationOfPitch": [self.DurationOfPitch],
+                "Occupation": [self.Occupation],
+                "Gender": [self.Gender],
+                "NumberOfPersonVisited": [self.NumberOfPersonVisited],
+                "NumberOfFollowups": [self.NumberOfFollowups],
+                "ProductPitched": [self.ProductPitched],
+                "PreferredPropertyStar": [self.PreferredPropertyStar],
+                "MaritalStatus": [self.MaritalStatus],
+                "NumberOfTrips": [self.NumberOfTrips],
+                "Passport": [self.Passport],
+                "PitchSatisfactionScore": [self.PitchSatisfactionScore],
+                "OwnCar": [self.OwnCar],
+                "NumberOfChildrenVisited": [self.NumberOfChildrenVisited],
+                "Designation": [self.Designation],
+                "MonthlyIncome": [self.MonthlyIncome],
             }
 
             return pd.DataFrame(custom_data_input_dict)
 
         except Exception as e:
-            raise CustomException(e,sys)
+            raise CustomException(e, sys)
