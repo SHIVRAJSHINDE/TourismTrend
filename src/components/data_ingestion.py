@@ -54,10 +54,10 @@ class DataIngestion:
     def encodeTheData(self, data, colName1, colName2):
         try:
             data = pd.get_dummies(data, columns=[colName1[0], colName1[1], colName1[2], colName1[3]], drop_first=True)
-            data[colName2[0]] = data[colName2[0]].replace(
-                {'Basic': 1, 'Standard': 2, 'Deluxe': 3, 'Super Deluxe': 4, 'King': 5})
-            data[colName2[1]] = data[colName2[1]].replace(
-                {'Executive': 1, 'Manager': 2, 'Senior Manager': 3, 'AVP': 4, 'VP': 5})
+            data[colName2[0]] = data[colName2[0]].replace({'Basic': 1, 'Standard': 2, 'Deluxe': 3, 'Super Deluxe': 4, 'King': 5})
+
+            data[colName2[1]] = data[colName2[1]].replace({'Executive': 1, 'Manager': 2, 'Senior Manager': 3, 'AVP': 4, 'VP': 5})
+
 
             return data
         except Exception as e:
@@ -93,12 +93,17 @@ class DataIngestion:
 
             data = self.encodeTheData(data, col1, col2)
 
+            lastCol = data['ProdTaken']
+            data = data.drop(['ProdTaken'], axis=1)
+            data = pd.concat([data, lastCol], axis=1)
+
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
             data.to_csv(self.ingestion_config.raw_data_path,index=False,header=True)
             train_set,test_set = train_test_split(data,test_size=0.2,random_state=42)
             train_set.to_csv(self.ingestion_config.train_data_path,index=False)
             test_set.to_csv(self.ingestion_config.test_data_path,index=False)
             print("files step-1")
+
 
             return (
                 self.ingestion_config.train_data_path,
@@ -119,6 +124,6 @@ if __name__ == "__main__":
     dataTransformation = DataTransformation()
     X_train_arr,y_train_arr,X_test_arr,y_test_arr,_ = dataTransformation.initiate_data_transformation(train_path,test_path)
 
-    modelTrainer = ModelTrainer()
-    print(modelTrainer.initiate_model_trainer(X_train_arr,y_train_arr,X_test_arr,y_test_arr))
+    #modelTrainer = ModelTrainer()
+    #print(modelTrainer.initiate_model_trainer(X_train_arr,y_train_arr,X_test_arr,y_test_arr))
 

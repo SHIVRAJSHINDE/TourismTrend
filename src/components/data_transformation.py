@@ -49,6 +49,10 @@ class DataTransformation:
             X_test_arr = input_feature_test_arr
             y_test_arr = np.array(target_feature_test_df)
 
+            trainArray = pd.DataFrame(X_train_arr)
+            trainArray.to_csv('D:/ProjectIneuron/ML/TourismTrend/artifacts/trainArray.csv',index = False)
+
+
 
             save_object(
 
