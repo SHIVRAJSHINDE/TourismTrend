@@ -17,6 +17,7 @@ class PredictPipeline:
             model = load_object(file_path=model_path)
             preprocessor = load_object(file_path=preprocessor_path)
             print("After Loading")
+            print(features)
             data_scaled = preprocessor.transform(features)
             preds = model.predict(data_scaled)
 
@@ -27,11 +28,11 @@ class PredictPipeline:
 
 
 class CustomData:
-    def __init__(self, Age: int, TypeofContact: str, CityTier: int, DurationOfPitch: int, Occupation: str,
-                 Gender: str, NumberOfPersonVisited: int, NumberOfFollowups: int, ProductPitched: str,
-                 PreferredPropertyStar: int, MaritalStatus: str, NumberOfTrips: int, Passport: str,
-                 PitchSatisfactionScore: int, OwnCar: str, NumberOfChildrenVisited: int, Designation: str,
-                 MonthlyIncome: int):
+    def __init__(self, Age: int, TypeofContact: str, CityTier: int, DurationOfPitch: int, Occupation: str,Gender: str, NumberOfPersonVisited: int,
+                 NumberOfFollowups: int, ProductPitched: str,PreferredPropertyStar: int, MaritalStatus: str, NumberOfTrips: int, Passport: str,
+                 PitchSatisfactionScore: int, OwnCar: str, NumberOfChildrenVisited: int, Designation: str,MonthlyIncome: int):
+
+
         self.Age = Age
         self.TypeofContact = TypeofContact
         self.CityTier = CityTier
@@ -71,9 +72,10 @@ class CustomData:
                 "OwnCar": [self.OwnCar],
                 "NumberOfChildrenVisited": [self.NumberOfChildrenVisited],
                 "Designation": [self.Designation],
-                "MonthlyIncome": [self.MonthlyIncome],
+                "MonthlyIncome": [self.MonthlyIncome]
             }
-
+            abc = pd.DataFrame(custom_data_input_dict)
+            abc.to_csv('D:/ProjectIneuron/ML/TourismTrend/artifacts/abc.csv')
             return pd.DataFrame(custom_data_input_dict)
 
         except Exception as e:
