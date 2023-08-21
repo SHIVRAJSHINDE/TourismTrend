@@ -1,0 +1,166 @@
+<html>
+<head>
+    <title>Student Exam Performance Indicator</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: lightblue;
+        }
+
+        .container {
+            margin-top: 50px;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 600px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="login">
+        <form action="{{ url_for('predict_datapoint')}}" method="post" class="container">
+            <h1><legend>Student Exam Performance Prediction</legend></h1>
+
+
+                              <div class="form-group row">
+                                <div class="col" >
+                                  <input type="number" name="Age" class="form-control" placeholder="Age">
+                                </div>
+
+                                <div class="col">
+                                  <select name="TypeofContact" class="form-control">
+                                    <option value="">Select Type of Contact</option>
+                                    <option value="Self Enquiry">Self Enquiry</option>
+                                    <option value="Company Invited">Company Invited</option>
+                                  </select>
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="col">
+                                  <input type="number" name="CityTier" class="form-control" placeholder="City Tier">
+                                </div>
+                                <div class="col">
+                                  <input type="number" name="DurationOfPitch" class="form-control" placeholder="Duration of Pitch">
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="col" >
+                                  <select name="Occupation" class="form-control">
+                                    <option value="">Select Occupation</option>
+                                    <option value="Salaried">Salaried</option>
+                                    <option value="Free Lancer">Free Lancer</option>
+                                    <option value="Small Business">Small Business</option>
+                                    <option value="Large Business">Large Business</option>
+                                  </select>
+                                </div>
+
+                                <div class="col">
+                                  <select name="Gender" class="form-control">
+                                    <option value="">Select Gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                  </select>
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="col">
+                                  <input type="number" name="NumberOfPersonVisited" class="form-control" placeholder="Number of Persons Visited">
+                                </div>
+                                <div class="col">
+                                  <input type="number" name="NumberOfFollowups" class="form-control" placeholder="Number of Follow-ups">
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="col">
+                                  <select name="ProductPitched" class="form-control">
+                                    <option value="">Select Product Pitched</option>
+                                    <option value="Deluxe">Deluxe</option>
+                                    <option value="Basic">Basic</option>
+                                    <option value="Standard">Standard</option>
+                                    <option value="Super Deluxe">Super Deluxe</option>
+                                    <option value="King">King</option>
+                                  </select>
+                                </div>
+
+                                <div class="col">
+                                  <input type="number" name="PreferredPropertyStar" class="form-control" placeholder="Preferred Property Star">
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="col">
+                                  <select name="MaritalStatus" class="form-control">
+                                    <option value="">Select Marital Status</option>
+                                    <option value="Single">Single</option>
+                                    <option value="Divorced">Divorced</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Unmarried">Unmarried</option>
+                                  </select>
+                                </div>
+                                <div class="col">
+                                  <input type="number" name="NumberOfTrips" class="form-control" placeholder="Number of Trips">
+                                </div>
+                              </div>
+
+                              <div class="form-group row">
+                                <div class="col">
+                                  <select name="Passport" class="form-control">
+                                    <option value="">Select Passport</option>
+                                    <option value="Yes">Yes</option>
+                                    <option value="No">No</option>
+                                  </select>
+                                </div>
+
+                                <div class="col">
+                                  <input type="number" name="PitchSatisfactionScore" class="form-control" placeholder="Pitch Satisfaction Score">
+                                </div>
+                              </div>
+
+                            <div class="form-group row">
+                              <div class="col">
+                                <select name="OwnCar" class="form-control">
+                                  <option value="">Select Own Car</option>
+                                  <option value="Yes">Yes</option>
+                                  <option value="No">No</option>
+                                </select>
+                              </div>
+                              <div class="col">
+                                <input type="number" name="NumberOfChildrenVisited" class="form-control" placeholder="Number of Children Visited">
+                              </div>
+                            </div>
+
+                            <div class="form-group row">
+                              <div class="col">
+                                <select name="Designation" class="form-control">
+                                  <option value="">Select Designation</option>
+                                  <option value="Manager">Manager</option>
+                                  <option value="Executive">Executive</option>
+                                  <option value="Senior Manager">Senior Manager</option>
+                                  <option value="AVP">AVP</option>
+                                  <option value="VP">VP</option>
+                                </select>
+                              </div>
+                              <div class="col">
+                                <input type="number" name="MonthlyIncome" class="form-control" placeholder="Monthly Income">
+                              </div>
+                            </div>
+                        <div class="form-group row">
+                            <div class="col-sm-8 offset-sm-4">
+                                 <input class="btn btn-primary" type="submit" value="Predict your Maths Score" required />
+                            </div>
+                        </div>
+                        <h2>
+                            The prediction is {{results}}
+                        </h2>
+        </form>
+    </div>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+
+</body>
+</html>
