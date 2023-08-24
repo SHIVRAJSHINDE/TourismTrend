@@ -9,7 +9,7 @@ from dataclasses import dataclass
 
 from src.components.data_transformation import DataTransformation
 from src.components.data_transformation import DataTransformationConfig
-
+from src.components.model_trainer import ModelTrainerConfig, ModelTrainer
 
 @dataclass
 class DataIngestionConfig:
@@ -26,13 +26,20 @@ class DataIngestion:
             #Reading the database
             df = pd.read_csv('notebook/data/tourismData.csv')
             os.makedirs(os.path.dirname(self.ingestion_config.train_data_path),exist_ok=True)
+            df = df.drop(columns=['CustomerID'],axis=1)
+
+            df.drop(df[df.duplicated()].index, inplace=True)
+            df['Gender'].replace('Fe Male', 'Female', inplace=True)
+            df['MaritalStatus'].replace('Single', 'Unmarried', inplace=True)
+
             df.to_csv(self.ingestion_config.train_data_path,index=False,header=True)
+
 
             #Reading the database
 
             train_set,test_set=train_test_split(df,test_size=0.2,random_state=42)
             train_set.to_csv(self.ingestion_config.train_data_path,index=False,header=True)
-            test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=False)
+            test_set.to_csv(self.ingestion_config.test_data_path,index=False,header=True)
 
             #print(self.ingestion_config.train_data_path)
             #print(self.ingestion_config.test_data_path)
@@ -51,3 +58,5 @@ if __name__ == "__main__":
 
     dataTransformation = DataTransformation()
     train_arr,test_arr,_=dataTransformation.initiate_data_transformation(train_path,test_path)
+    modeltrainer=ModelTrainer()
+    modeltrainer.initiate_model_trainer(train_arr,test_arr)

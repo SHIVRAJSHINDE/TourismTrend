@@ -25,7 +25,7 @@ class DataTransformation:
 
     def get_data_tranformer_object(self):
         try:
-            colReplaceWithMean = ['Age', 'DurationOfPitch', 'NumberOfFollowups', 'PreferredPropertyStar',
+            colReplaceWithMean = ['Age','DurationOfPitch', 'NumberOfFollowups', 'PreferredPropertyStar',
                                   'NumberOfTrips', 'NumberOfChildrenVisited', 'MonthlyIncome']
 
             colReplaceWithMode = ['TypeofContact']
@@ -67,14 +67,11 @@ class DataTransformation:
     def initiate_data_transformation(self,train_path,test_path):
         try:
             print("Read data")
+            print("Read data")
 
-            print(train_path)
+            train_df = pd.read_csv(train_path)
+            test_df = pd.read_csv(test_path)
 
-            train_df = pd.read_csv('D:\\MachineLearningProjects\\PROJECT\\TourismTrend-main\\artifacts\\train.csv')
-            test_df = pd.read_csv('D:\\MachineLearningProjects\\PROJECT\\TourismTrend-main\\artifacts\\test.csv')
-
-            print(train_df)
-            print(test_df)
 
             preprocessing_obj = self.get_data_tranformer_object()
 
@@ -82,17 +79,23 @@ class DataTransformation:
             print("Read data2")
 
             X_train = train_df.drop(columns=[tragetCol],axis=1)
+            print("X_train")
+
+            print(X_train)
             y_train = train_df[tragetCol]
+            X_train = preprocessing_obj.fit_transform(X_train)
+            train_arr = np.c_[X_train, np.array(y_train)]
+
 
             X_test = test_df.drop(columns=[tragetCol],axis=1)
             y_test = test_df[tragetCol]
-
-            X_train = preprocessing_obj.fit_transform(X_train)
             X_test = preprocessing_obj.transform(X_test)
-
-            train_arr = np.c_[X_train, np.array(y_train)]
-
             test_arr = np.c_[X_test, np.array(y_test)]
+
+            print(train_arr)
+
+            print(pd.DataFrame(train_arr))
+            #print(pd.DataFrame(test_arr))
 
             save_object(
 
@@ -106,11 +109,6 @@ class DataTransformation:
                 self.data_transformation_config.preprocessor_obj_file_path,
             )
 
-
-
-
-
-            return train_df
 
 
         except Exception as e:
