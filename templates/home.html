@@ -61,7 +61,7 @@
                                   <select name="Gender" class="form-control">
                                     <option value="">Select Gender</option>
                                     <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
+                                    <option value="Femal">Male</option>
                                   </select>
                                 </div>
                               </div>
@@ -96,7 +96,6 @@
                                 <div class="col">
                                   <select name="MaritalStatus" class="form-control">
                                     <option value="">Select Marital Status</option>
-                                    <option value="Single">Single</option>
                                     <option value="Divorced">Divorced</option>
                                     <option value="Married">Married</option>
                                     <option value="Unmarried">Unmarried</option>
@@ -111,13 +110,13 @@
                                 <div class="col">
                                   <select name="Passport" class="form-control">
                                     <option value="">Select Passport</option>
-                                    <option value="Yes">Yes</option>
-                                    <option value="No">No</option>
+                                    <option value=1>1</option>
+                                    <option value=0>0</option>
                                   </select>
                                 </div>
 
                                 <div class="col">
-                                  <input type="number" name="PitchSatisfactionScore" class="form-control" placeholder="Pitch Satisfaction Score">
+                                  <input type="number" name="FeedbackScore" class="form-control" placeholder="FeedbackScore">
                                 </div>
                               </div>
 
@@ -125,8 +124,8 @@
                               <div class="col">
                                 <select name="OwnCar" class="form-control">
                                   <option value="">Select Own Car</option>
-                                  <option value="Yes">Yes</option>
-                                  <option value="No">No</option>
+                                  <option value=1>1</option>
+                                  <option value=0>0</option>
                                 </select>
                               </div>
                               <div class="col">
@@ -155,7 +154,7 @@
                             </div>
                         </div>
                         <h2>
-                            The prediction is {{results}}
+                            The prediction is {{result}}
                         </h2>
         </form>
     </div>

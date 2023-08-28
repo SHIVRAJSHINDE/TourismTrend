@@ -6,7 +6,6 @@ import numpy as np
 import pandas as pd
 from src.utils import save_object
 
-
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
 from sklearn.pipeline import Pipeline
@@ -58,7 +57,6 @@ class DataTransformation:
                 ('S3OHE', S3OHE, ColsOneHot),
                 ('S4OrdEncd', S4OrdEncd, ColsOrdinal)
             ], remainder='passthrough')
-
             return preprocessor
 
         except Exception as e:
@@ -86,11 +84,11 @@ class DataTransformation:
             X_train = preprocessing_obj.fit_transform(X_train)
             train_arr = np.c_[X_train, np.array(y_train)]
 
-
             X_test = test_df.drop(columns=[tragetCol],axis=1)
             y_test = test_df[tragetCol]
             X_test = preprocessing_obj.transform(X_test)
             test_arr = np.c_[X_test, np.array(y_test)]
+
 
             print(train_arr)
 
@@ -98,11 +96,10 @@ class DataTransformation:
             #print(pd.DataFrame(test_arr))
 
             save_object(
-
                 file_path=self.data_transformation_config.preprocessor_obj_file_path,
                 obj=preprocessing_obj
-
             )
+
             return (
                 train_arr,
                 test_arr,

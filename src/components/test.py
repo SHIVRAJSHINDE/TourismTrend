@@ -1,6 +1,9 @@
-import pandas as pd
 
-#train_df = pd.read_csv('D:\\MachineLearningProjects\\PROJECT\\TourismTrend-main\\artifacts\\train.csv')
-train_df = pd.read_csv('artifacts/train.csv')
+abc = "Write a Python program to reverse a string"
+abc = abc.split()
+reversedString = []
 
-print(train_df)
+for i in range(len(abc), -1, 1):
+    reversedString.append(i)
+
+reversedString
